@@ -70,8 +70,10 @@ class CursoController extends Controller
     public function edit(Curso $curso): View
     {
         $curso->load([
-            'modulos' => fn ($query) => $query->withCount('lecciones'),
-        ]);
+    'modulos' => fn ($query) => $query
+        ->withCount('lecciones')
+        ->with('lecciones'),
+]);
 
         return view('admin.cursos.edit', compact('curso'));
     }
