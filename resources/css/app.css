@@ -9,7 +9,20 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    /* Paleta institucional CUCS */
+    --color-cucs-navy: #102a56;
+    --color-cucs-blue: #3975d5;
+    --color-cucs-aqua: #2b9ba3;
+    --color-cucs-aqua-light: #65d6d0;
+    --color-cucs-mint: #ddf6f4;
+    --color-cucs-sky: #eef5ff;
+    --color-cucs-surface: #f7f9fc;
+    --color-cucs-ink: #24324a;
+    --color-cucs-border: #dce5f0;
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -23,18 +36,21 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
+    /* Colores predeterminados de Flux */
+    --color-accent: var(--color-cucs-blue);
+    --color-accent-content: var(--color-cucs-navy);
     --color-accent-foreground: var(--color-white);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
-        --color-accent-foreground: var(--color-neutral-800);
+        --color-accent: var(--color-cucs-aqua-light);
+        --color-accent-content: var(--color-cucs-aqua-light);
+        --color-accent-foreground: var(--color-cucs-navy);
     }
 }
+
+
 
 @layer base {
 
