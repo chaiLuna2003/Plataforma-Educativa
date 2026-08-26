@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\CursoController;
 use App\Livewire\Admin\Users\Create as CreateUser;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\Admin\CursoController;
+use App\Http\Controllers\Admin\ModuloController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,21 @@ Route::middleware(['auth', 'active', 'admin'])
             ->name('users.create');
 
         Route::resource('cursos', CursoController::class);
+
+        Route::post(
+            'cursos/{curso}/modulos',
+            [ModuloController::class, 'store']
+        )->name('cursos.modulos.store');
+
+        Route::put(
+            'cursos/{curso}/modulos/{modulo}',
+            [ModuloController::class, 'update']
+        )->name('cursos.modulos.update');
+
+        Route::delete(
+            'cursos/{curso}/modulos/{modulo}',
+            [ModuloController::class, 'destroy']
+        )->name('cursos.modulos.destroy');
     });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
