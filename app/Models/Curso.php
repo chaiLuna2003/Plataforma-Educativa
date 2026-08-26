@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Curso extends Model
 {
@@ -40,10 +40,10 @@ class Curso extends Model
     }
 
     public function planes(): BelongsToMany
-{
-    return $this->belongsToMany(Plan::class, 'curso_plan')
-        ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Plan::class, 'curso_plan')
+            ->withTimestamps();
+    }
 
     public function creador(): BelongsTo
     {

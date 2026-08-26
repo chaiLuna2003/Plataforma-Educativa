@@ -56,15 +56,15 @@ class Leccion extends Model
 
     public function getVimeoEmbedUrlAttribute(): ?string
     {
-        if (!$this->vimeo_video_id) {
+        if (! $this->vimeo_video_id) {
             return null;
         }
 
         $url = 'https://player.vimeo.com/video/'
-            . rawurlencode($this->vimeo_video_id);
+            .rawurlencode($this->vimeo_video_id);
 
         if ($this->vimeo_video_hash) {
-            $url .= '?h=' . rawurlencode($this->vimeo_video_hash);
+            $url .= '?h='.rawurlencode($this->vimeo_video_hash);
         }
 
         return $url;

@@ -76,7 +76,7 @@ class ModuloController extends Controller
         Curso $curso
     ): RedirectResponse {
         return redirect()->to(
-            route('admin.cursos.edit', $curso) . '#modulos'
+            route('admin.cursos.edit', $curso).'#modulos'
         );
     }
 }

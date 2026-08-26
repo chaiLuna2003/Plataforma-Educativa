@@ -70,10 +70,10 @@ class CursoController extends Controller
     public function edit(Curso $curso): View
     {
         $curso->load([
-    'modulos' => fn ($query) => $query
-        ->withCount('lecciones')
-        ->with('lecciones'),
-]);
+            'modulos' => fn ($query) => $query
+                ->withCount('lecciones')
+                ->with('lecciones'),
+        ]);
 
         return view('admin.cursos.edit', compact('curso'));
     }
@@ -159,7 +159,7 @@ class CursoController extends Controller
         $contador = 2;
 
         while ($this->slugExiste($slug, $cursoIgnorado)) {
-            $slug = $slugBase . '-' . $contador;
+            $slug = $slugBase.'-'.$contador;
             $contador++;
         }
 

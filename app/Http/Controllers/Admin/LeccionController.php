@@ -80,7 +80,7 @@ class LeccionController extends Controller
     }
 
     /**
-     * @param array<string, mixed> $datos
+     * @param  array<string, mixed>  $datos
      * @return array<string, mixed>
      */
     private function prepararDatos(array $datos): array
@@ -178,8 +178,7 @@ class LeccionController extends Controller
 
         if ($videoId === null) {
             throw ValidationException::withMessages([
-                'leccion.vimeo_url' =>
-                    'No fue posible obtener el identificador del video de Vimeo.',
+                'leccion.vimeo_url' => 'No fue posible obtener el identificador del video de Vimeo.',
             ]);
         }
 
@@ -215,8 +214,8 @@ class LeccionController extends Controller
     ): RedirectResponse {
         return redirect()->to(
             route('admin.cursos.edit', $curso)
-            . '#modulo-'
-            . $modulo->id
+            .'#modulo-'
+            .$modulo->id
         );
     }
 }
