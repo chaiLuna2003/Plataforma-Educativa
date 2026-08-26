@@ -27,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+        'plan_id',
         'is_active',
         'invited_at',
         'invited_by',
@@ -58,6 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(self::class, 'invited_by');
     }
 
+    public function plan(): BelongsTo
+{
+    return $this->belongsTo(Plan::class);
+}
+
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
@@ -79,7 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->explode(' ')
             ->filter()
             ->take(2)
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 }
