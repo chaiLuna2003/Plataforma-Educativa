@@ -39,6 +39,11 @@ class Plan extends Model
             ->withTimestamps();
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function estaActivo(): bool
     {
         return $this->estado === 'activo';

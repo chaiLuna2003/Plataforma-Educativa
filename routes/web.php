@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\LeccionController;
 use App\Http\Controllers\Admin\ModuloController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Livewire\Admin\Users\Create as CreateUser;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Dashboard;
@@ -80,6 +81,12 @@ Route::middleware(['auth', 'active', 'admin'])
             'cursos/{curso}/modulos/{modulo}/lecciones/{leccion}',
             [LeccionController::class, 'destroy']
         )->name('cursos.modulos.lecciones.destroy');
+        Route::resource(
+            'planes',
+            PlanController::class
+        )
+            ->parameters(['planes' => 'plan'])
+            ->except('show');
     });
 
 require __DIR__.'/auth.php';

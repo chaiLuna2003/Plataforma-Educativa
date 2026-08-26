@@ -45,16 +45,37 @@
                     Inicio
                 </flux:navlist.item>
 
-                @if (auth()->user()->isAdmin())
-                <flux:navlist.item
-                    icon="users"
-                    :href="route('admin.users.index')"
-                    :current="request()->routeIs('admin.users.*')"
-                    class="rounded-[10px] transition hover:bg-cucs-sky/80 data-current:bg-cucs-sky data-current:text-cucs-navy dark:hover:bg-white/10 dark:data-current:bg-white/15 dark:data-current:text-white"
-                    wire:navigate>
-                    Usuarios
-                </flux:navlist.item>
-                @endif
+          @if (auth()->user()->isAdmin())
+    <flux:navlist.item
+        icon="users"
+        :href="route('admin.users.index')"
+        :current="request()->routeIs('admin.users.*')"
+        class="rounded-[10px] transition hover:bg-cucs-sky/80 data-current:bg-cucs-sky data-current:text-cucs-navy dark:hover:bg-white/10 dark:data-current:bg-white/15 dark:data-current:text-white"
+        wire:navigate
+    >
+        Usuarios
+    </flux:navlist.item>
+
+    <flux:navlist.item
+        icon="book-open"
+        :href="route('admin.cursos.index')"
+        :current="request()->routeIs('admin.cursos.*')"
+        class="rounded-[10px] transition hover:bg-cucs-sky/80 data-current:bg-cucs-sky data-current:text-cucs-navy dark:hover:bg-white/10 dark:data-current:bg-white/15 dark:data-current:text-white"
+        wire:navigate
+    >
+        Cursos
+    </flux:navlist.item>
+
+    <flux:navlist.item
+        icon="rectangle-stack"
+        :href="route('admin.planes.index')"
+        :current="request()->routeIs('admin.planes.*')"
+        class="rounded-[10px] transition hover:bg-cucs-sky/80 data-current:bg-cucs-sky data-current:text-cucs-navy dark:hover:bg-white/10 dark:data-current:bg-white/15 dark:data-current:text-white"
+        wire:navigate
+    >
+        Planes
+    </flux:navlist.item>
+@endif
             </flux:navlist.group>
         </flux:navlist>
 
