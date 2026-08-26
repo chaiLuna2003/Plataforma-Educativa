@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CursoController;
 use App\Livewire\Admin\Users\Create as CreateUser;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Dashboard;
@@ -31,6 +32,8 @@ Route::middleware(['auth', 'active', 'admin'])
 
         Route::get('usuarios/crear', CreateUser::class)
             ->name('users.create');
+
+        Route::resource('cursos', CursoController::class);
     });
 
 require __DIR__.'/auth.php';
