@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Users;
 
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Password;
@@ -20,6 +21,8 @@ class Create extends Component
     public string $email = '';
 
     public string $role = User::ROLE_STUDENT;
+
+    public ?int $planId = null;
 
     public bool $isActive = true;
 
@@ -42,12 +45,22 @@ class Create extends Component
                     User::ROLE_STUDENT,
                 ]),
             ],
+            'planId' => [
+                'required_if:role,'.User::ROLE_STUDENT,
+                'nullable',
+                'integer',
+                Rule::exists(Plan::class, 'id')
+                    ->where('estado', 'activo'),
+            ],
             'isActive' => ['boolean'],
         ]);
 
         $user = User::query()->create([
             'name' => $validated['name'],
             'email' => Str::lower($validated['email']),
+            'plan_id' => $validated['role'] === User::ROLE_STUDENT
+                ? $validated['planId']
+                : null,
             'password' => Str::random(64),
             'role' => $validated['role'],
             'is_active' => $validated['isActive'],
@@ -85,6 +98,14 @@ class Create extends Component
 
     public function render(): View
     {
-        return view('livewire.admin.users.create');
+        $planes = Plan::query()
+            ->where('estado', 'activo')
+            ->orderBy('orden')
+            ->orderBy('nombre')
+            ->get();
+
+        return view('livewire.admin.users.create', [
+            'planes' => $planes,
+        ]);
     }
 }
