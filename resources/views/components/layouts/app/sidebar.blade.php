@@ -1,3 +1,4 @@
+@props(['title' => null])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -44,6 +45,18 @@
                     wire:navigate>
                     Inicio
                 </flux:navlist.item>
+
+                @if (auth()->user()->isStudent())
+    <flux:navlist.item
+        icon="book-open"
+        :href="route('student.cursos.index')"
+        :current="request()->routeIs('student.cursos.*')"
+        class="rounded-[10px] transition hover:bg-cucs-sky/80 data-current:bg-cucs-sky data-current:text-cucs-navy dark:hover:bg-white/10 dark:data-current:bg-white/15 dark:data-current:text-white"
+        wire:navigate
+    >
+        Mis cursos
+    </flux:navlist.item>
+@endif
 
           @if (auth()->user()->isAdmin())
     <flux:navlist.item

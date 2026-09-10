@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\LeccionController;
 use App\Http\Controllers\Admin\ModuloController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Student\CursoController as StudentCursoController;
 use App\Livewire\Admin\Users\Create as CreateUser;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Dashboard;
@@ -17,6 +18,26 @@ Route::get('/', function () {
 Route::get('dashboard', Dashboard::class)
     ->middleware(['auth', 'active', 'verified'])
     ->name('dashboard');
+
+Route::middleware(['auth', 'active', 'verified'])
+    ->prefix('mis-cursos')
+    ->name('student.cursos.')
+    ->group(function () {
+        Route::get(
+            '/',
+            [StudentCursoController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '{curso}',
+            [StudentCursoController::class, 'show']
+        )->name('show');
+
+        Route::get(
+            '{curso}/lecciones/{leccion}',
+            [StudentCursoController::class, 'leccion']
+        )->name('lecciones.show');
+    });
 
 Route::middleware(['auth', 'active'])->group(function () {
     Route::redirect('settings', 'settings/profile');

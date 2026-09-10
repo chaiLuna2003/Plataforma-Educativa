@@ -51,8 +51,12 @@ class DashboardTest extends TestCase
         $this->actingAs($student)
             ->get('/dashboard')
             ->assertOk()
-            ->assertSee('Tus cursos aparecerán aquí')
-            ->assertSee('Revisar mi perfil')
+            ->assertSee('Continúa con tu formación')
+            ->assertSee('Ver mis cursos')
+            ->assertSee(
+                route('student.cursos.index'),
+                false
+            )
             ->assertDontSee('Usuarios registrados')
             ->assertDontSee('Usuarios recientes');
     }
