@@ -222,8 +222,20 @@
             </span>
 
             <h2 class="mt-6 text-2xl font-bold text-cucs-navy dark:text-white">
-                Tus cursos aparecerán aquí
-            </h2>
+    Continúa con tu formación
+</h2>
+
+<p class="mx-auto mt-3 max-w-xl leading-7 text-slate-500 dark:text-slate-400">
+    Consulta los cursos incluidos en tu plan, explora sus módulos y reproduce las lecciones disponibles.
+</p>
+
+<a
+    href="{{ route('student.cursos.index') }}"
+    wire:navigate
+    class="mt-7 inline-flex h-11 items-center justify-center rounded-[10px] bg-cucs-navy px-5 text-sm font-semibold text-white transition hover:bg-cucs-blue focus:outline-none focus:ring-4 focus:ring-cucs-blue/20"
+>
+    Ver mis cursos
+</a>
 
             <p class="mx-auto mt-3 max-w-xl leading-7 text-slate-500 dark:text-slate-400">
                 Cuando un administrador te asigne contenido, podrás comenzar tus cursos,
