@@ -4,8 +4,7 @@
         <a
             href="{{ route('admin.users.index') }}"
             wire:navigate
-            class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 transition hover:text-cyan-700"
-        >
+            class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 transition hover:text-cyan-700">
             <svg
                 class="size-4"
                 xmlns="http://www.w3.org/2000/svg"
@@ -13,8 +12,7 @@
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 stroke-width="2"
-                aria-hidden="true"
-            >
+                aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6" />
             </svg>
 
@@ -36,8 +34,7 @@
 
     <form
         wire:submit="save"
-        class="overflow-hidden rounded-[10px] border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900"
-    >
+        class="overflow-hidden rounded-[10px] border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
         <div class="space-y-6 p-6 sm:p-8">
             {{-- Nombre --}}
             <div>
@@ -54,13 +51,12 @@
                     autofocus
                     autocomplete="name"
                     placeholder="Nombre del usuario"
-                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                >
+                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
 
                 @error('name')
-                    <p class="mt-2 text-sm text-red-600">
-                        {{ $message }}
-                    </p>
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
                 @enderror
             </div>
 
@@ -78,13 +74,12 @@
                     required
                     autocomplete="email"
                     placeholder="usuario@ejemplo.com"
-                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                >
+                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
 
                 @error('email')
-                    <p class="mt-2 text-sm text-red-600">
-                        {{ $message }}
-                    </p>
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
                 @enderror
             </div>
 
@@ -95,12 +90,11 @@
                 </label>
 
                 <select
-                    wire:model="role"
+                    wire:model.live="role"
                     id="role"
                     name="role"
                     required
-                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                >
+                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
                     <option value="{{ \App\Models\User::ROLE_STUDENT }}">
                         Estudiante
                     </option>
@@ -115,11 +109,45 @@
                 </p>
 
                 @error('role')
-                    <p class="mt-2 text-sm text-red-600">
-                        {{ $message }}
-                    </p>
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
                 @enderror
             </div>
+
+            {{-- Plan del estudiante --}}
+            @if ($role === \App\Models\User::ROLE_STUDENT)
+            <div>
+                <label for="planId" class="mb-2 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                    Plan de acceso
+                </label>
+
+                <select
+                    wire:model="planId"
+                    id="planId"
+                    name="planId"
+                    required
+                    class="h-12 w-full rounded-[10px] border border-zinc-300 bg-white px-4 text-zinc-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
+                    <option value="">Selecciona un plan</option>
+
+                    @foreach ($planes as $plan)
+                    <option value="{{ $plan->id }}">
+                        {{ $plan->nombre }}
+                    </option>
+                    @endforeach
+                </select>
+
+                <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+                    El estudiante únicamente podrá acceder a los cursos incluidos en este plan.
+                </p>
+
+                @error('planId')
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
+                @enderror
+            </div>
+            @endif
 
             {{-- Estado --}}
             <div class="rounded-[10px] border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-800/60">
@@ -127,8 +155,7 @@
                     <input
                         wire:model="isActive"
                         type="checkbox"
-                        class="mt-1 size-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500"
-                    >
+                        class="mt-1 size-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500">
 
                     <span>
                         <span class="block text-sm font-semibold text-zinc-800 dark:text-zinc-200">
@@ -142,9 +169,9 @@
                 </label>
 
                 @error('isActive')
-                    <p class="mt-2 text-sm text-red-600">
-                        {{ $message }}
-                    </p>
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
                 @enderror
             </div>
 
@@ -158,8 +185,7 @@
             <a
                 href="{{ route('admin.users.index') }}"
                 wire:navigate
-                class="inline-flex h-11 items-center justify-center rounded-[10px] border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-700"
-            >
+                class="inline-flex h-11 items-center justify-center rounded-[10px] border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-700">
                 Cancelar
             </a>
 
@@ -167,8 +193,7 @@
                 type="submit"
                 wire:loading.attr="disabled"
                 wire:target="save"
-                class="inline-flex h-11 items-center justify-center gap-2 rounded-[10px] bg-[#102A56] px-5 text-sm font-semibold text-white transition hover:bg-[#173B72] focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-70"
-            >
+                class="inline-flex h-11 items-center justify-center gap-2 rounded-[10px] bg-[#102A56] px-5 text-sm font-semibold text-white transition hover:bg-[#173B72] focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-70">
                 <span wire:loading.remove wire:target="save">
                     Crear y enviar invitación
                 </span>
@@ -179,22 +204,19 @@
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                        aria-hidden="true">
                         <circle
                             class="opacity-25"
                             cx="12"
                             cy="12"
                             r="10"
                             stroke="currentColor"
-                            stroke-width="4"
-                        ></circle>
+                            stroke-width="4"></circle>
 
                         <path
                             class="opacity-75"
                             fill="currentColor"
-                            d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4Z"
-                        ></path>
+                            d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4Z"></path>
                     </svg>
 
                     Enviando...

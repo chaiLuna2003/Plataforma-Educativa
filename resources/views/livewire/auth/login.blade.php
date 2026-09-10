@@ -40,7 +40,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $user = Auth::user();
 
-if (! $user instanceof User || ! $user->isActive()) {
+        if (! $user instanceof User || ! $user->isActive()) {
             Auth::logout();
 
             Session::invalidate();

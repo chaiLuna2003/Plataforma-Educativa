@@ -27,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+        'plan_id',
         'is_active',
         'invited_at',
         'invited_by',
@@ -56,6 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function inviter(): BelongsTo
     {
         return $this->belongsTo(self::class, 'invited_by');
+    }
+
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
     }
 
     public function isAdmin(): bool
