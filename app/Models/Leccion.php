@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Leccion extends Model
 {
@@ -42,6 +43,16 @@ class Leccion extends Model
     public function modulo(): BelongsTo
     {
         return $this->belongsTo(Modulo::class);
+    }
+
+    public function estudiantesQueCompletaron(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'leccion_user'
+        )
+            ->withPivot('completed_at')
+            ->withTimestamps();
     }
 
     public function estaPublicada(): bool
