@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\LeccionController;
 use App\Http\Controllers\Admin\ModuloController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Student\CursoController as StudentCursoController;
 use App\Livewire\Admin\Users\Create as CreateUser;
 use App\Livewire\Admin\Users\Index as UsersIndex;
@@ -11,9 +12,8 @@ use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [LandingController::class, 'index'])
+    ->name('home');
 
 Route::get('dashboard', Dashboard::class)
     ->middleware(['auth', 'active', 'verified'])
