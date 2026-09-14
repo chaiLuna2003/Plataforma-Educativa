@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Curso extends Model
 {
@@ -37,6 +38,16 @@ class Curso extends Model
         return $this->hasMany(Modulo::class)
             ->orderBy('orden')
             ->orderBy('id');
+    }
+
+    public function leccionesPublicadas(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Leccion::class,
+            Modulo::class
+        )
+            ->where('modulos.estado', 'publicado')
+            ->where('lecciones.estado', 'publicado');
     }
 
     public function planes(): BelongsToMany

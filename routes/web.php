@@ -37,6 +37,16 @@ Route::middleware(['auth', 'active', 'verified'])
             '{curso}/lecciones/{leccion}',
             [StudentCursoController::class, 'leccion']
         )->name('lecciones.show');
+
+        Route::put(
+            '{curso}/lecciones/{leccion}/progreso',
+            [StudentCursoController::class, 'completarLeccion']
+        )->name('lecciones.progreso.update');
+
+        Route::delete(
+            '{curso}/lecciones/{leccion}/progreso',
+            [StudentCursoController::class, 'desmarcarLeccion']
+        )->name('lecciones.progreso.destroy');
     });
 
 Route::middleware(['auth', 'active'])->group(function () {

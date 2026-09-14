@@ -6,6 +6,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -62,6 +63,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function leccionesCompletadas(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Leccion::class,
+            'leccion_user'
+        )
+            ->withPivot('completed_at')
+            ->withTimestamps();
     }
 
     public function isAdmin(): bool
