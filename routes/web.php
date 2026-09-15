@@ -7,7 +7,9 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Student\CursoController as StudentCursoController;
 use App\Livewire\Admin\Users\Create as CreateUser;
+use App\Livewire\Admin\Users\Edit as EditUser;
 use App\Livewire\Admin\Users\Index as UsersIndex;
+use App\Livewire\Admin\Users\Show as ShowUser;
 use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -77,6 +79,12 @@ Route::middleware(['auth', 'active', 'admin'])
 
         Route::get('usuarios/crear', CreateUser::class)
             ->name('users.create');
+
+        Route::get('usuarios/{user}', ShowUser::class)
+            ->name('users.show');
+
+        Route::get('usuarios/{user}/editar', EditUser::class)
+            ->name('users.edit');
 
         Route::resource(
             'cursos',

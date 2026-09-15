@@ -74,6 +74,7 @@ class Index extends Component
     public function render(): View
     {
         $users = User::query()
+            ->with('plan')
             ->when(
                 $this->search !== '',
                 fn ($query) => $query->where(function ($query) {
