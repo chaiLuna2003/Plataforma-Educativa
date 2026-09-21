@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -68,6 +69,35 @@ class Index extends Component
             $user->isActive()
                 ? 'La cuenta fue activada correctamente.'
                 : 'La cuenta fue desactivada correctamente.'
+        );
+    }
+
+    public function sendAccessLink(int $userId): void
+    {
+        $user = User::query()->findOrFail($userId);
+
+        if (! $user->isActive()) {
+            $this->addError('account', 'Activa la cuenta antes de enviar el enlace de acceso.');
+
+            return;
+        }
+
+        try {
+            $status = Password::sendResetLink(['email' => $user->email]);
+        } catch (\Throwable $exception) {
+            report($exception);
+            $status = null;
+        }
+
+        if ($status !== Password::RESET_LINK_SENT) {
+            $this->addError('account', 'No se pudo enviar el enlace. Inténtalo más tarde.');
+
+            return;
+        }
+
+        session()->flash(
+            'status',
+            'Se envió un enlace para establecer una nueva contraseña a '.$user->email.'.'
         );
     }
 

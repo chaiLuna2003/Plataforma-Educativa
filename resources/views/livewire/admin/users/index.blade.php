@@ -194,6 +194,15 @@
 
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-end gap-3">
+                                @if ($user->isActive())
+                                <button
+                                    type="button"
+                                    wire:click="sendAccessLink({{ $user->id }})"
+                                    wire:confirm="¿Enviar un enlace para establecer una nueva contraseña a {{ $user->email }}?"
+                                    class="whitespace-nowrap text-sm font-semibold text-cyan-700 transition hover:text-cyan-800 dark:text-cyan-300 dark:hover:text-cyan-200">
+                                    Enviar enlace de acceso
+                                </button>
+                                @endif
                                 @if ($user->isStudent())
                                 <a
                                     href="{{ route('admin.users.show', $user) }}"
