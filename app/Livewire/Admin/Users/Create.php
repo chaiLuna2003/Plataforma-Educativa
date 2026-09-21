@@ -5,12 +5,14 @@ namespace App\Livewire\Admin\Users;
 use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Throwable;
 
 #[Layout('components.layouts.app')]
 #[Title('Crear usuario')]
@@ -68,9 +70,18 @@ class Create extends Component
             'invited_by' => auth()->id(),
         ]);
 
-        $status = Password::sendResetLink([
-            'email' => $user->email,
-        ]);
+        try {
+            $status = Password::sendResetLink([
+                'email' => $user->email,
+            ]);
+        } catch (Throwable $exception) {
+            Log::warning('No se pudo enviar la invitación del usuario.', [
+                'user_id' => $user->id,
+                'exception_type' => $exception::class,
+            ]);
+
+            $status = null;
+        }
 
         if ($status !== Password::RESET_LINK_SENT) {
             $user->update([

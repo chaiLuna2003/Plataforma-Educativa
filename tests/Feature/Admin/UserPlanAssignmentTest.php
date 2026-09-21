@@ -7,7 +7,9 @@ use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
 use Livewire\Livewire;
+use RuntimeException;
 use Tests\TestCase;
 
 class UserPlanAssignmentTest extends TestCase
@@ -105,6 +107,40 @@ class UserPlanAssignmentTest extends TestCase
 
         $this->assertDatabaseMissing('users', [
             'email' => 'invalido@example.com',
+        ]);
+    }
+
+    public function test_student_account_is_deactivated_if_invitation_delivery_fails(): void
+    {
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+            'is_active' => true,
+        ]);
+
+        $plan = Plan::query()->create([
+            'nombre' => 'Premium',
+            'slug' => 'premium',
+            'descripcion' => 'Acceso completo.',
+            'estado' => 'activo',
+            'orden' => 1,
+        ]);
+
+        Password::shouldReceive('sendResetLink')
+            ->once()
+            ->andThrow(new RuntimeException('Error del proveedor'));
+
+        Livewire::actingAs($admin)
+            ->test(Create::class)
+            ->set('name', 'Estudiante sin invitación')
+            ->set('email', 'sin-invitacion@example.com')
+            ->set('role', User::ROLE_STUDENT)
+            ->set('planId', $plan->id)
+            ->call('save')
+            ->assertHasErrors(['email']);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'sin-invitacion@example.com',
+            'is_active' => false,
         ]);
     }
 }
